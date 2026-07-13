@@ -12,31 +12,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _quantityController = TextEditingController();
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final priceController = TextEditingController();
+  final quantityController = TextEditingController();
 
-  final List<Product> _products = [];
+  final List<Product> products = [];
 
   void _addProduct() {
-    if (_formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       setState(() {
         final newProduct = Product(
-          name: _nameController.text,
-          description: _descriptionController.text,
-          price: double.parse(_priceController.text),
-          quantity: int.parse(_quantityController.text),
+          name: nameController.text,
+          description: descriptionController.text,
+          price: double.parse(priceController.text),
+          quantity: int.parse(quantityController.text),
         );
 
-        _products.add(newProduct);
+        products.add(newProduct);
 
-        _nameController.clear();
-        _descriptionController.clear();
-        _priceController.clear();
-        _quantityController.clear();
+        nameController.clear();
+        descriptionController.clear();
+        priceController.clear();
+        quantityController.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _calculateResults() {
-    if (_products.isEmpty) {
+    if (products.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Debe ingresar al menos un producto'),
@@ -60,15 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     final mostExpensiveProduct =
-        _products.reduce((a, b) => a.price > b.price ? a : b);
+        products.reduce((a, b) => a.price > b.price ? a : b);
     final cheapestProduct =
-        _products.reduce((a, b) => a.price < b.price ? a : b);
+        products.reduce((a, b) => a.price < b.price ? a : b);
     final highestQuantityProduct =
-        _products.reduce((a, b) => a.quantity > b.quantity ? a : b);
+        products.reduce((a, b) => a.quantity > b.quantity ? a : b);
     final lowestQuantityProduct =
-        _products.reduce((a, b) => a.quantity < b.quantity ? a : b);
-    final totalPrice = _products.fold(0.0, (sum, item) => sum + item.price);
-    final averagePrice = totalPrice / _products.length;
+        products.reduce((a, b) => a.quantity < b.quantity ? a : b);
+    final totalPrice = products.fold(0.0, (sum, item) => sum + item.price);
+    final averagePrice = totalPrice / products.length;
 
     final results = {
       'mostExpensiveName': mostExpensiveProduct.name,
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: _nameController,
+                    controller: nameController,
                     decoration: InputDecoration(
                       labelText: 'Nombre del producto',
                       prefixIcon: const Icon(Icons.shopping_bag),
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _descriptionController,
+                    controller: descriptionController,
                     decoration: InputDecoration(
                       labelText: 'Descripción del producto',
                       prefixIcon: const Icon(Icons.description),
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _priceController,
+                    controller: priceController,
                     decoration: InputDecoration(
                       labelText: 'Precio del producto',
                       prefixIcon: const Icon(Icons.attach_money),
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _quantityController,
+                    controller: quantityController,
                     decoration: InputDecoration(
                       labelText: 'Cantidad del producto',
                       prefixIcon: const Icon(Icons.format_list_numbered),
