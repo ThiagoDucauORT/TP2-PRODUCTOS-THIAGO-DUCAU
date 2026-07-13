@@ -11,7 +11,8 @@ class ResultsScreen extends StatelessWidget {
     // Función auxiliar para crear tarjetas de resultados
     Widget buildResultCard(String title, String name, String description) {
       return Card(
-        elevation: 4,
+        color: Colors.blueGrey[800],
+        elevation: 6,
         margin: const EdgeInsets.symmetric(vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -26,7 +27,7 @@ class ResultsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.tealAccent[100],
                 ),
               ),
               const SizedBox(height: 10),
@@ -35,14 +36,15 @@ class ResultsScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 5),
               Text(
                 description,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey,
+                  color: Colors.blueGrey[300],
                 ),
               ),
             ],
@@ -52,12 +54,12 @@ class ResultsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.blueGrey[900],
       appBar: AppBar(
         title: const Text('Resultados'),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blueGrey[900],
         elevation: 0,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => context.go('/home'), // Volver a la pantalla de inicio
@@ -89,7 +91,8 @@ class ResultsScreen extends StatelessWidget {
               results['lowestQuantityDescription'] ?? 'N/A',
             ),
             Card(
-              elevation: 4,
+              color: Colors.blueGrey[800],
+              elevation: 6,
               margin: const EdgeInsets.symmetric(vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -104,7 +107,7 @@ class ResultsScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Colors.tealAccent[100],
                       ),
                     ),
                     Text(
@@ -112,6 +115,7 @@ class ResultsScreen extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
+                        color: Colors.greenAccent,
                       ),
                     ),
                   ],
@@ -120,13 +124,13 @@ class ResultsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => context.go('/'), // Ir a la pantalla de login
+              onPressed: () => context.go('/'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                backgroundColor: Colors.redAccent, // Color para salir
+                backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
               ),
               child: const Text('Salir'),
