@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Producto agregado con éxito'),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.green, // Feedback visual positivo
           ),
         );
       });
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Debe ingresar al menos un producto'),
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.orange, // Feedback visual de advertencia
         ),
       );
       return;
@@ -88,152 +88,130 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100], // Fondo ligeramente gris para que resalte la tarjeta
       appBar: AppBar(
         title: Text('Hola, ${widget.username ?? 'Usuario'}'),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        foregroundColor: Colors.black,
-        automaticallyImplyLeading: false, // Oculta la flecha de "atrás"
+        backgroundColor: Colors.indigo, // Color clásico y elegante para el AppBar
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            width: 380,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 15,
-                  offset: Offset(0, 5),
-                )
-              ],
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 3, // Sombra sutil
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12), // Bordes un poco redondeados
             ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Ingresar Producto",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Nombre del producto',
-                      prefixIcon: const Icon(Icons.shopping_bag),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0), // Espaciado interno de la tarjeta
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // Para que la tarjeta se adapte al contenido
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      "Nuevo Producto",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingrese un nombre';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      labelText: 'Descripción del producto',
-                      prefixIcon: const Icon(Icons.description),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Nombre',
+                        prefixIcon: Icon(Icons.shopping_bag_outlined),
+                        border: OutlineInputBorder(), // Borde estándar de Material
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Requerido';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingrese una descripción';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    controller: priceController,
-                    decoration: InputDecoration(
-                      labelText: 'Precio del producto',
-                      prefixIcon: const Icon(Icons.attach_money),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Descripción',
+                        prefixIcon: Icon(Icons.description_outlined),
+                        border: OutlineInputBorder(),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Requerido';
+                        }
+                        return null;
+                      },
                     ),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingrese un precio';
-                      }
-                      if (double.tryParse(value) == null) {
-                        return 'Por favor ingrese un número válido';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    controller: quantityController,
-                    decoration: InputDecoration(
-                      labelText: 'Cantidad del producto',
-                      prefixIcon: const Icon(Icons.format_list_numbered),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: priceController,
+                      decoration: const InputDecoration(
+                        labelText: 'Precio',
+                        prefixIcon: Icon(Icons.attach_money),
+                        border: OutlineInputBorder(),
                       ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Requerido';
+                        }
+                        if (double.tryParse(value) == null) {
+                          return 'Número inválido';
+                        }
+                        return null;
+                      },
                     ),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingrese una cantidad';
-                      }
-                      if (int.tryParse(value) == null) {
-                        return 'Por favor ingrese un número entero válido';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 25),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: quantityController,
+                      decoration: const InputDecoration(
+                        labelText: 'Cantidad',
+                        prefixIcon: Icon(Icons.numbers),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Requerido';
+                        }
+                        if (int.tryParse(value) == null) {
+                          return 'Entero inválido';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
                       onPressed: _addProduct,
+                      icon: const Icon(Icons.add),
+                      label: const Text('Agregar Producto'),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: Colors.green, // Color para agregar
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor: Colors.green, // Botón de acción principal
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('Ingresar Producto'),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
                       onPressed: _calculateResults,
+                      icon: const Icon(Icons.analytics_outlined),
+                      label: const Text('Ver Resultados'),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: Theme.of(context).primaryColor, // Color primario
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor: Colors.indigo, // Botón secundario
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('Calcular Resultados'),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

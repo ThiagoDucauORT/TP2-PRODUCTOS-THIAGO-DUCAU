@@ -8,44 +8,44 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Función auxiliar para crear tarjetas de resultados
-    Widget buildResultCard(String title, String name, String description) {
+    // Función auxiliar actualizada al nuevo estilo
+    Widget buildResultCard(String title, String name, String description, IconData icon) {
       return Card(
-        color: Colors.blueGrey[800],
-        elevation: 6,
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        elevation: 2,
+        margin: const EdgeInsets.symmetric(vertical: 8),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(16),
+          leading: CircleAvatar(
+            backgroundColor: Colors.indigo.withOpacity(0.1),
+            child: Icon(icon, color: Colors.indigo),
+          ),
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.indigo,
+            ),
+          ),
+          subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 8),
               Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.tealAccent[100],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                name,
+                'Nombre: $name',
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 4),
               Text(
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.blueGrey[300],
-                ),
+                'Descripción: $description',
+                style: const TextStyle(color: Colors.black54),
               ),
             ],
           ),
@@ -54,89 +54,88 @@ class ResultsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.grey[100], // Fondo coherente
       appBar: AppBar(
         title: const Text('Resultados'),
-        backgroundColor: Colors.blueGrey[900],
-        elevation: 0,
+        backgroundColor: Colors.indigo, // Mismo color de AppBar
         foregroundColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => context.go('/home'), // Volver a la pantalla de inicio
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/home'),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            buildResultCard(
-              'Producto más caro',
-              results['mostExpensiveName'] ?? 'N/A',
-              results['mostExpensiveDescription'] ?? 'N/A',
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          buildResultCard(
+            'Producto más caro',
+            results['mostExpensiveName'] ?? 'N/A',
+            results['mostExpensiveDescription'] ?? 'N/A',
+            Icons.trending_up, // Ícono representativo
+          ),
+          buildResultCard(
+            'Producto más barato',
+            results['cheapestName'] ?? 'N/A',
+            results['cheapestDescription'] ?? 'N/A',
+            Icons.trending_down,
+          ),
+          buildResultCard(
+            'Mayor cantidad',
+            results['highestQuantityName'] ?? 'N/A',
+            results['highestQuantityDescription'] ?? 'N/A',
+            Icons.inventory_2_outlined,
+          ),
+          buildResultCard(
+            'Menor cantidad',
+            results['lowestQuantityName'] ?? 'N/A',
+            results['lowestQuantityDescription'] ?? 'N/A',
+            Icons.warning_amber_rounded,
+          ),
+          const SizedBox(height: 8),
+          // Tarjeta de total destacada en índigo
+          Card(
+            elevation: 3,
+            color: Colors.indigo, 
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
-            buildResultCard(
-              'Producto más barato',
-              results['cheapestName'] ?? 'N/A',
-              results['cheapestDescription'] ?? 'N/A',
-            ),
-            buildResultCard(
-              'Producto con mayor cantidad',
-              results['highestQuantityName'] ?? 'N/A',
-              results['highestQuantityDescription'] ?? 'N/A',
-            ),
-            buildResultCard(
-              'Producto con menor cantidad',
-              results['lowestQuantityName'] ?? 'N/A',
-              results['lowestQuantityDescription'] ?? 'N/A',
-            ),
-            Card(
-              color: Colors.blueGrey[800],
-              elevation: 6,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Precio promedio',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.tealAccent[100],
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Precio promedio',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    Text(
-                      '\$${(results['averagePrice'] as double?)?.toStringAsFixed(2) ?? '0.00'}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.greenAccent,
-                      ),
+                  ),
+                  Text(
+                    '\$${(results['averagePrice'] as double?)?.toStringAsFixed(2) ?? '0.00'}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.greenAccent, // Resalta sobre el fondo índigo
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => context.go('/'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                backgroundColor: Colors.teal,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Salir'),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () => context.go('/'),
+            icon: const Icon(Icons.exit_to_app),
+            label: const Text('Cerrar sesión'),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              backgroundColor: Colors.redAccent, 
+              foregroundColor: Colors.white,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
